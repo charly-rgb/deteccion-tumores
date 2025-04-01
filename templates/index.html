@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador de Tumores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Analizador de Tumores Cerebrales</h1>
+    </header>
+    
+    <main>
+        <section class="upload-section">
+            <form method="post" enctype="multipart/form-data">
+                <label for="file-upload" class="custom-file-upload">Subir Imagen</label>
+                <input id="file-upload" type="file" name="file" accept=".png,.jpg,.jpeg,.dcm" required>
+                <button type="submit">Procesar</button>
+            </form>
+        </section>
+
+        {% if original_image %}
+        <section class="analysis-results">
+            <h2>Resultado del Diagnóstico</h2>
+            <div class="message">
+                {% if has_tumor %}
+                <p class="warning">⚠️ Posible tumor detectado con una confianza de {{ confidence }}</p>
+                {% else %}
+                <p class="safe">✅ No se detectaron anomalías (Confianza: {{ confidence }})</p>
+                {% endif %}
+            </div>
+            
+            <div class="images">
+                <figure>
+                    <img src="{{ url_for('static', filename='uploads/' + original_image) }}" alt="Imagen Original">
+                    <figcaption>Imagen Original</figcaption>
+                </figure>
+                <figure>
+                    <img src="{{ url_for('static', filename=result_images.contours) }}" alt="Contornos">
+                    <figcaption>Detección de Contornos</figcaption>
+                </figure>
+                <figure>
+                    <img src="{{ url_for('static', filename=result_images.heatmap) }}" alt="Mapa de Calor">
+                    <figcaption>Mapa de Calor</figcaption>
+                </figure>
+            </div>
+        </section>
+        {% endif %}
+    </main>
+</body>
+</html>

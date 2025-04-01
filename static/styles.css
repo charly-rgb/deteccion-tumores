@@ -1,0 +1,109 @@
+/* Estilos generales */
+body {
+    font-family: 'Verdana', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e3e3e3;
+    text-align: center;
+}
+
+header {
+    background: #1e3a8a;
+    color: white;
+    padding: 20px;
+    font-size: 24px;
+}
+
+main {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección de subida de archivos */
+.upload-section {
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    background: #1e3a8a;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #1e40af;
+}
+
+/* Resultados */
+.analysis-results {
+    text-align: center;
+    padding: 20px;
+}
+
+.message {
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.warning {
+    background: #ffe6e6;
+    color: #b91c1c;
+}
+
+.safe {
+    background: #e6ffe6;
+    color: #166534;
+}
+
+.images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+figure {
+    margin: 0;
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+figcaption {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #555;
+}
