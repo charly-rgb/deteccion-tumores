@@ -21,6 +21,28 @@ os.makedirs(RESULT_FOLDER, exist_ok=True)
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@app.route('/predict', methods=['POST'])
+def predict_tumor():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file provided'}), 400
+
+    file = request.files['file']
+    if file.filename == '' or not allowed_file(file.filename):
+        return jsonify({'error': 'Invalid or empty file'}), 400
+
+    filename = secure_filename(file.filename)
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    file.save(filepath)
+
+    detector = TumorDetector()
+    result = detector.detect_tumor(filepath)
+
+    return jsonify({
+        'has_tumor': result['has_tumor'],
+        'confidence': f"{result['confidence']:.2f}%",
+        'filename': filename
+    })
+
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
