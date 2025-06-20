@@ -24,25 +24,32 @@ def allowed_file(filename):
 
 @app.route('/predict', methods=['POST'])
 def predict_tumor():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file provided'}), 400
+    try:
+        file = request.files.get('file')
+        if not file:
+            return jsonify({'error': 'No file provided'}), 400
 
-    file = request.files['file']
-    if file.filename == '' or not allowed_file(file.filename):
-        return jsonify({'error': 'Invalid or empty file'}), 400
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
 
-    filename = secure_filename(file.filename)
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    file.save(filepath)
+        detector = TumorDetector()
+        result = detector.detect_tumor(filepath)
 
-    detector = TumorDetector()
-    result = detector.detect_tumor(filepath)
+        # Asegúrate que los valores son serializables
+        has_tumor_val = bool(result.get('has_tumor'))
+        confidence_val = float(result.get('confidence', 0.0))
 
-    return jsonify({
-        'has_tumor': result['has_tumor'],
-        'confidence': f"{result['confidence']:.2f}%",
-        'filename': filename
-    })
+        return jsonify({
+            'has_tumor': has_tumor_val,
+            'confidence': f"{confidence_val:.2f}%",
+            'filename': filename
+        })
+
+    except Exception as e:
+        import traceback
+        print("[ERROR]", traceback.format_exc())
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
