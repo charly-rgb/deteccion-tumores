@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+import traceback
 from werkzeug.utils import secure_filename
 from processing.tumor_detector import TumorDetector
 from processing.image_processor import generate_visualizations
