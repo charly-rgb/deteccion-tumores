@@ -42,7 +42,7 @@ def predict_tumor():
 
         return jsonify({
             'has_tumor': has_tumor_val,
-            'confidence': f"{confidence_val:.2f}%",
+            'confidence': result['confidence'],
             'filename': filename
         })
 
